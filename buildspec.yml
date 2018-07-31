@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login --no-include-email --region us-east-1
+      - REPOSITORY_URI=686773406557.dkr.ecr.us-east-1.amazonaws.com/first
+      - GCODEBUILD_GIT_BRANCH=`git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }'`
+      - echo $GCODEBUILD_GIT_BRANCH
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t ecs-101 .
+      - echo $GCODEBUILD_GIT_BRANCH
+      - docker tag ecs-101:latest $REPOSITORY_URI:$GCODEBUILD_GIT_BRANCH
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - eval $(aws ecr get-login --no-include-email | sed 's|https://||')
+      - docker push $REPOSITORY_URI:$GCODEBUILD_GIT_BRANCH
+  

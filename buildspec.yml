@@ -21,7 +21,7 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - eval $(aws ecr get-login --no-include-email | sed 's|https://||')
-      - docker push $REPOSITORY_URI:$GCODEBUILD_GIT_BRANCH
+      - docker push $REPOSITORY_URI:artifact
       - printf '[{"name":"custom","imageUri":"%s"}]' $REPOSITORY_URI:artifact > imagedefinitions.json
 
 artifacts:

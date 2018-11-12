@@ -15,14 +15,14 @@ phases:
       - echo Building the Docker image...          
       - docker build -t ecs-101 .
       - echo $GCODEBUILD_GIT_BRANCH
-      - docker tag ecs-101:latest $REPOSITORY_URI:$GCODEBUILD_GIT_BRANCH
+      - docker tag ecs-101:latest $REPOSITORY_URI:artifact
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - eval $(aws ecr get-login --no-include-email | sed 's|https://||')
       - docker push $REPOSITORY_URI:$GCODEBUILD_GIT_BRANCH
-      - printf '[{"name":"custom","imageUri":"%s"}]' $REPOSITORY_URI:$GCODEBUILD_GIT_BRANCH > imagedefinitions.json
+      - printf '[{"name":"custom","imageUri":"%s"}]' $REPOSITORY_URI:artifact > imagedefinitions.json
 
 artifacts:
     files: imagedefinitions.json

@@ -8,6 +8,13 @@ phases:
       - REPOSITORY_URI=686773406557.dkr.ecr.us-east-1.amazonaws.com/first
       - GCODEBUILD_GIT_BRANCH=`git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }'`
       - echo $GCODEBUILD_GIT_BRANCH
+      - mkdir -p ~/.ssh
+      - chmod 700 ~/.ssh
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo $GIT_PUB | base64 -d > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - git clone git@github.com:pagevamp/dev-guide.git
+
 
   build:
     commands:

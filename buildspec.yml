@@ -9,6 +9,7 @@ phases:
       - GCODEBUILD_GIT_BRANCH=`git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }'`
       - echo $GCODEBUILD_GIT_BRANCH
       - pwd
+      - whoami
       - mkdir -p ~/.ssh
       - chmod 700 ~/.ssh
       - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config

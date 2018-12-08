@@ -13,6 +13,7 @@ phases:
       - mkdir -p ~/.ssh
       - chmod 700 ~/.ssh
       - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+      - cat ~/.ssh/config
       #- echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
       - echo $GIT_PUB
       - echo $GIT_PUB | base64 -d > ~/.ssh/id_rsa
